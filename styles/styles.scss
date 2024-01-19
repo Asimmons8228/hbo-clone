@@ -1,0 +1,23 @@
+@use 'reset';
+@use '../components/UI/Login/login';
+@use 'create-user';
+@use '../components/UI/Header/header';
+@use '../components/UI/SideNav/side-nav';
+@use '../components/UI/FeaturedMedia/featuredmedia';
+@use '../components/UI/CastInfo/castinfo';
+@use '../components/UI/Account/account';
+@use '../components/UI/SearchModal/searchmodal';
+@use '../components/UI/MediaRow/mediarow';
+@use '../components/UI/PlaceHolder/placeholder';
+@use '../components/UI/GenreNav/genre-nav';
+
+h1{
+    font-size: 3rem;
+}
+html, body{
+    background: black;
+}
+
+.hide-comp{
+    display: none;
+}
