@@ -9,7 +9,6 @@ import MainLayout from "@/components/layouts/MainLayout";
 import FeaturedMedia from "@/components/UI/FeaturedMedia/FeaturedMedia";
 import AuthCheck from "@/components/AuthCheck";
 import MediaRow from "@/components/UI/MediaRow/MediaRow";
-import LazyLoad from "react-lazyload";
 import Placeholder from "@/components/UI/PlaceHolder/PlaceHolder";
 import GenreNav from "@/components/UI/GenreNav/GenreNav";
 import { shuffleArray } from "@/components/utilities";
