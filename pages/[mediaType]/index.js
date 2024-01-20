@@ -13,7 +13,7 @@ import Placeholder from "@/components/UI/PlaceHolder/PlaceHolder";
 import GenreNav from "@/components/UI/GenreNav/GenreNav";
 import { shuffleArray } from "@/components/utilities";
 import axios from "axios";
-import { getServerSideProps } from "next/dist/build/templates/pages";
+import { GetServerSideProps } from "next";
 
 // import { useState } from "react";
 
