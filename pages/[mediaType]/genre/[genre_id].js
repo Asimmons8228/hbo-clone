@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import { Inter } from "next/font/google";
 import { useStateContext } from "@/components/HBOprovider";
 import Login from "@/components/UI/Login/Login";
+import { GetServerSideProps } from "next";
 import { useRouter } from "next/router";
 import MainLayout from "@/components/layouts/MainLayout";
 import FeaturedMedia from "@/components/UI/FeaturedMedia/FeaturedMedia";

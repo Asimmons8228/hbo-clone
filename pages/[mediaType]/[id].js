@@ -8,6 +8,7 @@ import CastInfo from "@/components/UI/CastInfo/CastInfo";
 import AuthCheck from "@/components/AuthCheck";
 import { useRouter } from "next/router";
 import axios from "axios";
+import { GetServerSideProps } from "next";
 import { useEffect, useState } from "react";
 import Placeholder from "@/components/UI/PlaceHolder/PlaceHolder";
 
