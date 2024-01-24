@@ -1,16 +1,19 @@
-import { useStateContext } from "@/components/HBOprovider";
-import { useEffect, useState } from "react";
-import axios from "axios";
-import Link from "next/link";
-import { useRouter } from "next/router";
+// Importing necessary modules and components
+import { useStateContext } from "@/components/HBOprovider";  // Custom hook to access global state
+import { useEffect, useState } from "react";  // React hooks for side effects and state management
+import axios from "axios";  // HTTP client for making API requests
+import Link from "next/link";  // Next.js component for client-side navigation
+import { useRouter } from "next/router";  // Next.js hook for accessing the router
 
+// SearchModal component definition
 const SearchModal = (props) => {
-  const globalState = useStateContext();
-  const [popData, setPopData] = useState([]);
-  const [searchData, setSearchData] = useState([]);
-  const [showResults, setShowResults] = useState(false);
-  const [text, setText] = useState("");
+  const globalState = useStateContext();  // Accessing global state using custom hook
+  const [popData, setPopData] = useState([]);  // State for popular movies data
+  const [searchData, setSearchData] = useState([]);  // State for search results data
+  const [showResults, setShowResults] = useState(false);  // State to control visibility of search results
+  const [text, setText] = useState("");  // State to hold the search input text
 
+  // Fetching popular movies data on component mount
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -28,6 +31,7 @@ const SearchModal = (props) => {
     fetchData();
   }, []);
 
+  // Effect to handle overflowY property of body based on global state
   useEffect(() => {
     if (globalState.searchOpen) {
       document.body.style.overflowY = "hidden";
@@ -36,6 +40,7 @@ const SearchModal = (props) => {
     }
   }, [globalState.searchOpen]);
 
+  // Handling user input for search and fetching search results
   const handleInput = async (e) => {
     try {
       setText(e.target.value);
@@ -53,10 +58,7 @@ const SearchModal = (props) => {
     }
   };
 
-  //   const clickedThumbnail = () => {
-
-  //   }
-
+  // JSX structure for the SearchModal component
   return (
     <div
       className={`search-modal ${
@@ -95,6 +97,7 @@ const SearchModal = (props) => {
   );
 };
 
+// Component for rendering popular movie thumbnails
 const PopularResults = (props) => {
   const globalState = useStateContext();
   return props.popData.map((item, index) => {
@@ -114,6 +117,7 @@ const PopularResults = (props) => {
   });
 };
 
+// Component for rendering search results thumbnails
 const SearchResults = (props) => {
   const globalState = useStateContext();
   return props.searchData.map((item, index) => {
@@ -133,4 +137,5 @@ const SearchResults = (props) => {
   });
 };
 
+// Exporting the SearchModal component as the default export
 export default SearchModal;

@@ -9,40 +9,49 @@ import MainLayout from "@/components/layouts/MainLayout";
 import FeaturedMedia from "@/components/UI/FeaturedMedia/FeaturedMedia";
 import AuthCheck from "@/components/AuthCheck";
 import MediaRow from "@/components/UI/MediaRow/MediaRow";
+import LazyLoad from "react-lazyload";
 import Placeholder from "@/components/UI/PlaceHolder/PlaceHolder";
 import GenreNav from "@/components/UI/GenreNav/GenreNav";
 import { shuffleArray } from "@/components/utilities";
 import axios from "axios";
-import { GetServerSideProps } from "next";
 
-// import { useState } from "react";
-
+// Font subset configuration
 const inter = Inter({ subsets: ["latin"] });
 
 export default function MediaTypePage(props) {
   const globalState = useStateContext();
   const router = useRouter();
   
+  // Function to render random media rows
   const showRandomMedia = () => {
     let thumbType;
     return props.genresData.map((item) => {
-      thumbType = shuffleArray(globalState.thumbTypes)[0]
+      thumbType = shuffleArray(globalState.thumbTypes)[0];
+
+      // LazyLoad wrapper for better performance
       return (
         <div key={item.id}>
-          <MediaRow
-            title={item.name}
-            type={thumbType}
-            mediaType={props.query.mediaType}
-            endpoint={`discover/${props.query.mediaType}?with_genres=${item.id}&sort_by=popularity.desc&primary_release_year=2023`}
-          />
+          <LazyLoad
+            offset={-200}
+            placeholder={<Placeholder title={item.name} type={thumbType} />}
+          >
+            <MediaRow
+              title={item.name}
+              type={thumbType}
+              mediaType={props.query.mediaType}
+              endpoint={`discover/${props.query.mediaType}?with_genres=${item.id}&sort_by=popularity.desc&primary_release_year=2023`}
+            />
+          </LazyLoad>
         </div>
-      )
-    })
+      );
+    });
   }
 
   return AuthCheck(
     <>
+      {/* Main Layout component */}
       <MainLayout>
+        {/* Featured Media section */}
         <FeaturedMedia
           mediaUrl={`https://image.tmdb.org/t/p/w1280${props.featuredData.backdrop_path}`}
           title={props.query.mediaType ==='movie' ? props.featuredData.title : props.featuredData.name}
@@ -50,7 +59,9 @@ export default function MediaTypePage(props) {
           location="In theaters and on HBO MAX. Streaming through May 23."
           linkUrl={`/${props.query.mediaType}/${props.featuredData.id}`}
         />
+        {/* Genre Navigation section */}
         <GenreNav mediaType={props.query.mediaType} genresData={props.genresData} />
+        {/* Render random media rows */}
         {showRandomMedia()}
       </MainLayout>
     </>
@@ -61,19 +72,25 @@ export async function getServerSideProps(context) {
   let genresData;
   let featuredData;
   try {
+    // Fetch genre data
     genresData = await axios.get(
       `https://api.themoviedb.org/3/genre/${context.query.mediaType}/list?api_key=6d1dcfd285874d37cf4305319bf0609e&language=en`
     );
+    // Fetch featured data
     featuredData = await axios.get(
       `https://api.themoviedb.org/3/discover/${context.query.mediaType}?primary_release_year=2023&api_key=6d1dcfd285874d37cf4305319bf0609e&language=en`
     );
+    // Log genres data for debugging
     console.log("genresData");
     console.log(genresData.data);
   } catch (error) {
+    // Log error if there is an issue fetching data
     console.log("error");
     console.log(error);
   }
+  // Log genres data after fetching
   console.log(genresData);
+
   return {
     props: {
       genresData: genresData.data.genres,

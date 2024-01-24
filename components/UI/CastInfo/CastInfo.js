@@ -1,10 +1,14 @@
+// Importing necessary modules
 import axios from "axios";
 import { useState, useEffect } from "react";
 
+// CastInfo component definition
 const CastInfo = (props) => {
+  // State to manage loading data and credits
   const [loadingData, setLoadingData] = useState(true);
   const [credits, setCredits] = useState([]);
 
+  // Fetching cast and crew information using useEffect
   useEffect(() => {
     axios
       .get(
@@ -13,22 +17,18 @@ const CastInfo = (props) => {
       .then(function (response) {
         setCredits(response.data);
         setLoadingData(false);
-        // handle success
-        console.log("Success Response For Cast and Crew");
-        console.log(response);
       })
       .catch(function (error) {
-        // handle error
-        console.log("Error Response For Cast and Crew");
-        console.log(error);
+        console.log(error);  // Logging error response (removed)
       });
-  }, [credits]);
+  }, [props.mediaType, props.mediaId]);
 
+  // Function to render cast information
   const showCast = () => {
     if (loadingData !== true) {
-      return credits.cast.map((item) => {
+      return credits.cast.map((item, index) => {
         return (
-          <ul className="cast-info__crew">
+          <ul className="cast-info__crew" key={index}>
             <li>{item.character}</li>
             <li>{item.name}</li>
           </ul>
@@ -39,11 +39,12 @@ const CastInfo = (props) => {
     }
   };
 
+  // Function to render crew information
   const showCrew = () => {
     if (loadingData !== true) {
-      return credits.crew.map((item) => {
+      return credits.crew.map((item, index) => {
         return (
-          <ul className="cast-info__crew">
+          <ul className="cast-info__crew" key={index}>
             <li>{item.job}</li>
             <li>{item.name}</li>
           </ul>
@@ -54,6 +55,7 @@ const CastInfo = (props) => {
     }
   };
 
+  // JSX structure for CastInfo component
   return (
     <div className="cast-info">
       <div className="cast-info__group-title">Cast</div>
@@ -64,4 +66,5 @@ const CastInfo = (props) => {
   );
 };
 
+// Exporting the CastInfo component as the default export
 export default CastInfo;
