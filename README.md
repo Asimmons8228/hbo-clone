@@ -1,5 +1,7 @@
 This is a HBOMax Clone developed using React.js, Next.js, Context API, TMDB API, HTML 5, SASS, and SCSS.
 
+Link to App- [https://max-clone.netlify.app/movie/572802](https://max-clone.netlify.app/)
+
 ## Create and Login Pages
 
 First I built a Create page which allows users to create their profile so they can utilize the app.
